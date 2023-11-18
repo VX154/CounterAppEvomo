@@ -100,6 +100,11 @@ class _CounterScreenState extends State<CounterScreen> {
   List<PieChartSectionData> _getSections() {
     double total = (passCount + reworkCount + defectiveCount).toDouble();
 
+    // Handle division by zero
+    if (total == 0) {
+      return [];
+    }
+
     return List.generate(
       3,
           (index) {
@@ -131,6 +136,7 @@ class _CounterScreenState extends State<CounterScreen> {
       },
     );
   }
+
 
   Widget _buildCategoryCard(String category, int count, VoidCallback? onPressed) {
     Color cardColor;

@@ -40,6 +40,45 @@ class _CounterScreenState extends State<CounterScreen> {
     prefs.setInt('defectiveCount', defectiveCount);
   }
 
+  void _resetCounts() async {
+    // Show a confirmation dialog
+    bool confirmReset = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm Reset'),
+          content: Text('Are you sure you want to reset the counts?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true); // Return true if user confirms
+              },
+              child: Text('Yes'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false); // Return false if user cancels
+              },
+              child: Text('No'),
+            ),
+          ],
+        );
+      },
+    );
+
+    // Reset counts only if the user confirms
+    if (confirmReset == true) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setInt('passCount', 0);
+      prefs.setInt('reworkCount', 0);
+      prefs.setInt('defectiveCount', 0);
+
+      // Update state and reload counts
+      _loadCounts();
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,6 +116,10 @@ class _CounterScreenState extends State<CounterScreen> {
                 _buildCategoryCard('Total Products', passCount + reworkCount + defectiveCount, null),
               ],
             ),
+          ),
+          ElevatedButton(
+            onPressed: _resetCounts,
+            child: Text('Reset Counts'),
           ),
         ],
       ),

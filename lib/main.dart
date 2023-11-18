@@ -51,13 +51,13 @@ class _CounterScreenState extends State<CounterScreen> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(true); // Return true if the user confirms
+                Navigator.of(context).pop(true); // Return true if user confirms
               },
               child: Text('Yes'),
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(false); // Return false if the user cancels
+                Navigator.of(context).pop(false); // Return false if user cancels
               },
               child: Text('No'),
             ),
@@ -128,16 +128,21 @@ class _CounterScreenState extends State<CounterScreen> {
   }
 
   Widget _buildPieChart() {
-    return AspectRatio(
-      aspectRatio: 1.5,
-      child: PieChart(
-        PieChartData(
-          sectionsSpace: 2,
-          centerSpaceRadius: 50,
-          startDegreeOffset: 90,
-          sections: _getSections(),
-        ),
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double pieChartSize = constraints.maxWidth > 600 ? 400.0 : constraints.maxWidth * 0.8;
+        return AspectRatio(
+          aspectRatio: 1.5,
+          child: PieChart(
+            PieChartData(
+              sectionsSpace: 2,
+              centerSpaceRadius: pieChartSize * 0.2,
+              startDegreeOffset: 90,
+              sections: _getSections(),
+            ),
+          ),
+        );
+      },
     );
   }
 

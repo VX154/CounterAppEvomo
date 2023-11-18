@@ -51,13 +51,13 @@ class _CounterScreenState extends State<CounterScreen> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(true); // Return true if user confirms
+                Navigator.of(context).pop(true); // Return true if the user confirms
               },
               child: Text('Yes'),
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(false); // Return false if user cancels
+                Navigator.of(context).pop(false); // Return false if the user cancels
               },
               child: Text('No'),
             ),
@@ -78,22 +78,23 @@ class _CounterScreenState extends State<CounterScreen> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Product Counter'),
       ),
-      body: Column(
-        children: [
-          _buildPieChart(),
-          Expanded(
-            child: GridView.count(
-              crossAxisCount: 2,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _buildPieChart(),
+            GridView.count(
+              crossAxisCount: MediaQuery.of(context).size.width > 600 ? 4 : 2,
               crossAxisSpacing: 10.0,
               mainAxisSpacing: 10.0,
               padding: const EdgeInsets.all(10.0),
+              shrinkWrap: true,
               children: [
                 _buildCategoryCard('Products Passed', passCount, () {
                   setState(() {
@@ -116,12 +117,12 @@ class _CounterScreenState extends State<CounterScreen> {
                 _buildCategoryCard('Total Products', passCount + reworkCount + defectiveCount, null),
               ],
             ),
-          ),
-          ElevatedButton(
-            onPressed: _resetCounts,
-            child: Text('Reset Counts'),
-          ),
-        ],
+            ElevatedButton(
+              onPressed: _resetCounts,
+              child: Text('Reset Counts'),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -179,7 +180,6 @@ class _CounterScreenState extends State<CounterScreen> {
       },
     );
   }
-
 
   Widget _buildCategoryCard(String category, int count, VoidCallback? onPressed) {
     Color cardColor;

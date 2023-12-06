@@ -83,6 +83,12 @@ class _CounterScreenState extends State<CounterScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Product Counter'),
+        actions: [
+          IconButton(
+            onPressed: _resetCounts,
+            icon: Icon(Icons.refresh),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -117,12 +123,41 @@ class _CounterScreenState extends State<CounterScreen> {
                 _buildCategoryCard('Total Products', passCount + reworkCount + defectiveCount, null),
               ],
             ),
-            ElevatedButton(
-              onPressed: _resetCounts,
-              child: Text('Reset Counts'),
-            ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bar_chart),
+            label: 'Counter',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.camera),
+            label: 'Camera',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle),
+            label: 'Account',
+          ),
+        ],
+        currentIndex: 0,
+        selectedItemColor: Colors.blue,
+        onTap: (index) {
+          // Handle navigation to different screens
+          // For now, it doesn't navigate, but you can replace the print statements with your navigation logic
+          switch (index) {
+            case 0:
+              print('Navigate to Counter');
+              break;
+            case 1:
+              print('Navigate to Camera');
+              break;
+            case 2:
+              print('Navigate to Account');
+              break;
+          }
+        },
       ),
     );
   }
@@ -156,7 +191,7 @@ class _CounterScreenState extends State<CounterScreen> {
 
     return List.generate(
       3,
-          (index) {
+      (index) {
         switch (index) {
           case 0:
             return PieChartSectionData(

@@ -60,6 +60,9 @@ dev_dependencies:
 flutter:
   assets:
     - assets/
+    - assets/labels.txt
+    - assets/converted_model.tflite
+    - assets/yolov8n.tflite
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

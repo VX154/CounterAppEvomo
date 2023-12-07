@@ -1,5 +1,5 @@
 import 'package:camera/camera.dart';
-import 'package:flutter_tts/flutter_tts.dart';
+// import 'package:flutter_tts/flutter_tts.dart';
 import 'package:flutter_vision/flutter_vision.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -45,28 +45,28 @@ class _YoloVideoState extends State<YoloVideo> {
   bool isDetecting = false;
 
   late FlutterVision vision; // YOLO
-  FlutterTts flutterTts = FlutterTts(); // TTS
+  // FlutterTts flutterTts = FlutterTts(); // TTS
 
   @override
   void initState() {
     super.initState();
 
     vision = FlutterVision(); // YOLO
-    initTTS(); // TTS
+    // initTTS(); // TTS
 
     init();
   }
 
-  Future<void> initTTS() async { // TTS
+  /*Future<void> initTTS() async { // TTS
     await flutterTts.setLanguage("en-US"); // Set the language you want
     await flutterTts.setSpeechRate(1.0); // Adjust speech rate (1.0 is normal)
     await flutterTts.setVolume(1.0); // Adjust volume (0.0 to 1.0)
     await flutterTts.setPitch(1.0); // Adjust pitch (1.0 is normal)
-  }
+  }*/
 
-  Future<void> speak(String text) async {
+  /*Future<void> speak(String text) async {
     await flutterTts.speak(text); // TTS
-  }
+  }*/
 
   init() async {
     cameras = await availableCameras();
@@ -85,7 +85,7 @@ class _YoloVideoState extends State<YoloVideo> {
   @override
   void dispose() async {
 
-    flutterTts.stop(); // TTS Stop
+    // flutterTts.stop(); // TTS Stop
     vision.closeYoloModel(); // YOLO Stop
 
     super.dispose();
@@ -209,7 +209,7 @@ class _YoloVideoState extends State<YoloVideo> {
 
     return yoloResults.map((result) {
 
-      speak("${result['tag']}");
+      // speak("${result['tag']}");
 
       return Positioned(
         left: result["box"][0] * factorX,

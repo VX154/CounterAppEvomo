@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'camera_activity.dart';
 
 void main() {
   runApp(const MyApp());
@@ -145,13 +146,15 @@ class _CounterScreenState extends State<CounterScreen> {
         selectedItemColor: Colors.blue,
         onTap: (index) {
           // Handle navigation to different screens
-          // For now, it doesn't navigate, but you can replace the print statements with your navigation logic
           switch (index) {
             case 0:
               print('Navigate to Counter');
               break;
             case 1:
-              print('Navigate to Camera');
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => App()),
+              );
               break;
             case 2:
               print('Navigate to Account');
@@ -191,7 +194,7 @@ class _CounterScreenState extends State<CounterScreen> {
 
     return List.generate(
       3,
-      (index) {
+          (index) {
         switch (index) {
           case 0:
             return PieChartSectionData(

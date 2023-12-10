@@ -61,7 +61,7 @@ flutter:
     - assets/
     - assets/labels.txt
     - assets/converted_model.tflite
-    - assets/yolov8n.tflite
+    - assets/yolov5-dataset-saveme.tflite
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

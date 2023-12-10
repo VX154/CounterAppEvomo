@@ -1,5 +1,4 @@
 import 'package:camera/camera.dart';
-// import 'package:flutter_tts/flutter_tts.dart';
 import 'package:flutter_vision/flutter_vision.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -16,7 +15,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'MegaView',
+        title: 'Evomo Product Counter App',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurpleAccent),
           useMaterial3: true,
@@ -28,7 +27,7 @@ class App extends StatelessWidget {
   }
 }
 
-// YOLO V5 REAL-TIME OBJECT DETECTION
+// Product Detection
 
 class YoloVideo extends StatefulWidget {
   const YoloVideo({super.key});
@@ -45,28 +44,15 @@ class _YoloVideoState extends State<YoloVideo> {
   bool isDetecting = false;
 
   late FlutterVision vision; // YOLO
-  // FlutterTts flutterTts = FlutterTts(); // TTS
 
   @override
   void initState() {
     super.initState();
 
     vision = FlutterVision(); // YOLO
-    // initTTS(); // TTS
 
     init();
   }
-
-  /*Future<void> initTTS() async { // TTS
-    await flutterTts.setLanguage("en-US"); // Set the language you want
-    await flutterTts.setSpeechRate(1.0); // Adjust speech rate (1.0 is normal)
-    await flutterTts.setVolume(1.0); // Adjust volume (0.0 to 1.0)
-    await flutterTts.setPitch(1.0); // Adjust pitch (1.0 is normal)
-  }*/
-
-  /*Future<void> speak(String text) async {
-    await flutterTts.speak(text); // TTS
-  }*/
 
   init() async {
     cameras = await availableCameras();
@@ -85,7 +71,6 @@ class _YoloVideoState extends State<YoloVideo> {
   @override
   void dispose() async {
 
-    // flutterTts.stop(); // TTS Stop
     vision.closeYoloModel(); // YOLO Stop
 
     super.dispose();
@@ -154,8 +139,8 @@ class _YoloVideoState extends State<YoloVideo> {
   Future<void> loadYoloModel() async {
     await vision.loadYoloModel(
         labels: 'assets/labels.txt',
-        modelPath: 'assets/yolov8n.tflite',
-        modelVersion: "yolov8",
+        modelPath: 'assets/yolov5-dataset-saveme.tflite',
+        modelVersion: "yolov5",
         numThreads: 8,
         useGpu: true);
     setState(() {
@@ -208,8 +193,6 @@ class _YoloVideoState extends State<YoloVideo> {
     Color colorPick = const Color.fromARGB(255, 50, 233, 30);
 
     return yoloResults.map((result) {
-
-      // speak("${result['tag']}");
 
       return Positioned(
         left: result["box"][0] * factorX,

@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter_vision/flutter_vision.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:shared_preferences/shared_preferences.dart';
 
 late List<CameraDescription> cameras;
 
@@ -43,13 +44,13 @@ class _YoloVideoState extends State<YoloVideo> {
   bool isLoaded = false;
   bool isDetecting = false;
 
-  late FlutterVision vision; // YOLO
+  late FlutterVision vision;
 
   @override
   void initState() {
     super.initState();
 
-    vision = FlutterVision(); // YOLO
+    vision = FlutterVision();
 
     init();
   }
@@ -82,9 +83,22 @@ class _YoloVideoState extends State<YoloVideo> {
     final Size size = MediaQuery.of(context).size;
     if (!isLoaded) {
       return const Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.blue,
         body: Center(
-          child: Text("Model not loaded. Waiting for it.", style: TextStyle(color: Colors.white)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Loading the Model.",
+                style: TextStyle(color: Colors.white, fontSize: 24),
+              ),
+              SizedBox(height: 20),
+              CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                strokeWidth: 10.0,
+              ),
+            ],
+          ),
         ),
       );
     }
@@ -139,7 +153,7 @@ class _YoloVideoState extends State<YoloVideo> {
   Future<void> loadYoloModel() async {
     await vision.loadYoloModel(
         labels: 'assets/labels.txt',
-        modelPath: 'assets/yolov5-dataset-saveme.tflite',
+        modelPath: 'assets/yolov5s-datasetvirra-2.tflite',
         modelVersion: "yolov5",
         numThreads: 8,
         useGpu: true);
@@ -185,14 +199,21 @@ class _YoloVideoState extends State<YoloVideo> {
     });
   }
 
+  late SharedPreferences _prefs;
+  int productCounter = 0;
+
   List<Widget> displayBoxesAroundRecognizedObjects(Size screen) {
     if (yoloResults.isEmpty) return [];
     double factorX = screen.width / (cameraImage?.height ?? 1);
     double factorY = screen.height / (cameraImage?.width ?? 1);
 
-    Color colorPick = const Color.fromARGB(255, 50, 233, 30);
+    Color colorPick = const Color.fromARGB(255, 26, 252, 2);
+
 
     return yoloResults.map((result) {
+      if (result['tag'] == 'Bottle') {
+        productCounter++; // Increment counter for each "Bottle"
+      }
 
       return Positioned(
         left: result["box"][0] * factorX,
@@ -202,10 +223,10 @@ class _YoloVideoState extends State<YoloVideo> {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-            border: Border.all(color: Colors.pink, width: 2.0),
+            border: Border.all(color: Colors.red, width: 2.0),
           ),
           child: Text(
-            "${result['tag']} ${(result['box'][4] * 100).toStringAsFixed(0)}%",
+            "${result['tag']} ${(result['box'][4] * 100).toStringAsFixed(0)}% Bottle : $productCounter",
             style: TextStyle(
               background: Paint()..color = colorPick,
               color: Colors.white,

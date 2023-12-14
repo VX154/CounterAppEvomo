@@ -22,7 +22,7 @@ class _CounterScreenState extends State<CounterScreen> {
   @override
   void initState() {
     super.initState();
-    _loadCounts(); // Load counts when the screen is initialized
+    _loadCounts(); // Load counts
   }
 
   void _loadCounts() async {
